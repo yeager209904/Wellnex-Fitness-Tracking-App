@@ -20,10 +20,9 @@
 
 ---
 
-<div align="center">
-  <video src="assets/demo.mp4" width="1000" autoplay loop muted controls></video>
-  <p><i>Experience Wellnex: ML-powered strength prediction and comprehensive workout tracking</i></p>
-</div>
+[![Watch the demo](https://i.imgur.com/yourThumbnail.png)](https://www.youtube.com/watch?v=yourVideoID)
+*Click the image to watch the demo*
+
 
 ---
 
