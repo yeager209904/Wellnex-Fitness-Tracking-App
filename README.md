@@ -71,12 +71,25 @@ Never train alone with our AI-powered assistant that provides:
 <div align="center">
   <table>
     <tr>
-      <td align="center"><img src="/api/placeholder/200/400" alt="Home Screen"/><br><strong>Dashboard</strong></td>
-      <td align="center"><img src="/api/placeholder/200/400" alt="Strength Prediction"/><br><strong>ML Strength Analytics</strong></td>
-      <td align="center"><img src="/api/placeholder/200/400" alt="AI Chatbot"/><br><strong>Wellnex Assistant</strong></td>
+      <td align="center">
+        <a href="https://imgur.com/undefined" target="_blank">
+          <img src="https://imgur.com/undefined" alt="Home Screen" width="200"/><br><strong>Dashboard</strong>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://i.imgur.com/YOUR_IMAGE_2.png" target="_blank">
+          <img src="https://i.imgur.com/YOUR_IMAGE_2.png" alt="Strength Prediction" width="200"/><br><strong>ML Strength Analytics</strong>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://i.imgur.com/YOUR_IMAGE_3.png" target="_blank">
+          <img src="https://i.imgur.com/YOUR_IMAGE_3.png" alt="AI Chatbot" width="200"/><br><strong>Wellnex Assistant</strong>
+        </a>
+      </td>
     </tr>
   </table>
 </div>
+
 
 ---
 
