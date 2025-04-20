@@ -18,9 +18,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { databases } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { Query } from "react-native-appwrite";
+import { ID } from "react-native-appwrite";
 import images from "@/constants/images";
+import {
+  MEASURE_DATABASE_ID,
+  MEASURE_COLLECTION_ID,
+} from "@env";
 
-// Define measurement keys and type
 type MeasurementKeys = "Weight" | "Height" | "Chest" | "Waist" | "Hips";
 type Measurements = Record<MeasurementKeys, string>;
 
@@ -44,20 +48,20 @@ export default function Measure() {
     if (!user?.$id) return;
     try {
       const response = await databases.listDocuments(
-        "67bd43150023c2506475",
-        "67bd454b0021ca911867",
+        MEASURE_DATABASE_ID,
+        MEASURE_COLLECTION_ID,
         [Query.equal("userId", user.$id)]
       );
 
       if (response.documents.length > 0) {
-        const existingData = response.documents[0];
-        setDocumentId(existingData.$id);
+        const doc = response.documents[0];
+        setDocumentId(doc.$id);
         setMeasurements({
-          Weight: existingData.Weight.toString(),
-          Height: existingData.Height.toString(),
-          Chest: existingData.Chest.toString(),
-          Waist: existingData.Waist.toString(),
-          Hips: existingData.Hips.toString(),
+          Weight: doc.Weight.toString(),
+          Height: doc.Height.toString(),
+          Chest: doc.Chest.toString(),
+          Waist: doc.Waist.toString(),
+          Hips: doc.Hips.toString(),
         });
       }
     } catch (error) {
@@ -72,31 +76,31 @@ export default function Measure() {
       return;
     }
 
-    try {
-      const data = {
-        Weight: parseFloat(measurements.Weight) || 0,
-        Height: parseFloat(measurements.Height) || 0,
-        Chest: parseFloat(measurements.Chest) || 0,
-        Waist: parseFloat(measurements.Waist) || 0,
-        Hips: parseFloat(measurements.Hips) || 0,
-        userId: user.$id,
-      };
+    const payload = {
+      Weight: parseFloat(measurements.Weight) || 0,
+      Height: parseFloat(measurements.Height) || 0,
+      Chest: parseFloat(measurements.Chest) || 0,
+      Waist: parseFloat(measurements.Waist) || 0,
+      Hips: parseFloat(measurements.Hips) || 0,
+      userId: user.$id,
+    };
 
+    try {
       if (documentId) {
         await databases.updateDocument(
-          "67bd43150023c2506475",
-          "67bd454b0021ca911867",
+          MEASURE_DATABASE_ID,
+          MEASURE_COLLECTION_ID,
           documentId,
-          data
+          payload
         );
       } else {
-        const newDocument = await databases.createDocument(
-          "67bd43150023c2506475",
-          "67bd454b0021ca911867",
-          "unique()",
-          data
+        const newDoc = await databases.createDocument(
+          MEASURE_DATABASE_ID,
+          MEASURE_COLLECTION_ID,
+          ID.unique(),
+          payload
         );
-        setDocumentId(newDocument.$id);
+        setDocumentId(newDoc.$id);
       }
 
       Alert.alert("Success", "Measurements saved!");
@@ -127,7 +131,7 @@ export default function Measure() {
             <Text style={styles.headerTitle}>Body Measurements</Text>
           </View>
 
-          {/* Body Image Container */}
+          {/* Body Image + Inputs */}
           <View style={[styles.imageContainer, { backgroundColor: "black" }]}>
             <Image
               source={images.measure11}
@@ -135,7 +139,7 @@ export default function Measure() {
               resizeMode="contain"
             />
 
-            {/* Height (near top-right) */}
+            {/** Height */}
             <View style={[styles.labelContainer, { top: "10%", left: "10%" }]}>
               <Text style={styles.labelText}>Height (cm)</Text>
               <TextInput
@@ -144,13 +148,13 @@ export default function Measure() {
                 placeholderTextColor="#999"
                 keyboardType="decimal-pad"
                 value={measurements.Height}
-                onChangeText={(value) =>
-                  setMeasurements((prev) => ({ ...prev, Height: value }))
+                onChangeText={(v) =>
+                  setMeasurements(prev => ({ ...prev, Height: v }))
                 }
               />
             </View>
 
-            {/* Chest (near chest) */}
+            {/** Chest */}
             <View style={[styles.labelContainer, { top: "28%", left: "55%" }]}>
               <Text style={styles.labelText}>Chest (cm)</Text>
               <TextInput
@@ -159,13 +163,13 @@ export default function Measure() {
                 placeholderTextColor="#999"
                 keyboardType="decimal-pad"
                 value={measurements.Chest}
-                onChangeText={(value) =>
-                  setMeasurements((prev) => ({ ...prev, Chest: value }))
+                onChangeText={(v) =>
+                  setMeasurements(prev => ({ ...prev, Chest: v }))
                 }
               />
             </View>
 
-            {/* Waist (below chest) */}
+            {/** Waist */}
             <View style={[styles.labelContainer, { top: "40%", left: "15%" }]}>
               <Text style={styles.labelText}>Waist (cm)</Text>
               <TextInput
@@ -174,13 +178,13 @@ export default function Measure() {
                 placeholderTextColor="#999"
                 keyboardType="decimal-pad"
                 value={measurements.Waist}
-                onChangeText={(value) =>
-                  setMeasurements((prev) => ({ ...prev, Waist: value }))
+                onChangeText={(v) =>
+                  setMeasurements(prev => ({ ...prev, Waist: v }))
                 }
               />
             </View>
 
-            {/* Hips (further down) */}
+            {/** Hips */}
             <View style={[styles.labelContainer, { top: "42%", left: "55%" }]}>
               <Text style={styles.labelText}>Hips (cm)</Text>
               <TextInput
@@ -189,13 +193,13 @@ export default function Measure() {
                 placeholderTextColor="#999"
                 keyboardType="decimal-pad"
                 value={measurements.Hips}
-                onChangeText={(value) =>
-                  setMeasurements((prev) => ({ ...prev, Hips: value }))
+                onChangeText={(v) =>
+                  setMeasurements(prev => ({ ...prev, Hips: v }))
                 }
               />
             </View>
 
-            {/* Weight (lower left) */}
+            {/** Weight */}
             <View style={[styles.labelContainer, { top: "75%", left: "5%" }]}>
               <Text style={styles.labelText}>Weight (kg)</Text>
               <TextInput
@@ -204,8 +208,8 @@ export default function Measure() {
                 placeholderTextColor="#999"
                 keyboardType="decimal-pad"
                 value={measurements.Weight}
-                onChangeText={(value) =>
-                  setMeasurements((prev) => ({ ...prev, Weight: value }))
+                onChangeText={(v) =>
+                  setMeasurements(prev => ({ ...prev, Weight: v }))
                 }
               />
             </View>
@@ -213,7 +217,10 @@ export default function Measure() {
 
           {/* Save Button */}
           <View style={styles.saveButtonContainer}>
-            <TouchableOpacity style={styles.saveButton} onPress={saveMeasurements}>
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={saveMeasurements}
+            >
               <Text style={styles.saveButtonText}>Save Measurements</Text>
             </TouchableOpacity>
           </View>
@@ -223,7 +230,7 @@ export default function Measure() {
   );
 }
 
-// Styles (unchanged from your original code)
+// Styles (unchanged)
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
