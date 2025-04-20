@@ -20,8 +20,14 @@
 
 ---
 
-[![Watch the demo](https://i.imgur.com/yourThumbnail.png)](https://www.youtube.com/watch?v=yourVideoID)
-*Click the image to watch the demo*
+<div align="center">
+  <a href="https://imgur.com/IoShdTa" target="_blank">
+    <img src="https://i.imgur.com/IoShdTa.gif" alt="Wellnex Demo" width="700px"/>
+    <br/>
+    <i>▶ Click to watch: Experience Wellnex — ML-powered strength prediction and comprehensive workout tracking</i>
+  </a>
+</div>
+
 
 
 ---
