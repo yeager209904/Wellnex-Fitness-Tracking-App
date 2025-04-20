@@ -21,7 +21,8 @@
 ---
 
 <div align="center">
-  <img src="/api/placeholder/240/480" alt="App Demo" />
+  <video src="assets/demo.mp4" width="600" autoplay loop muted controls></video>
+  <p><i>Experience Wellnex: ML-powered strength prediction and comprehensive workout tracking</i></p>
 </div>
 
 ---
