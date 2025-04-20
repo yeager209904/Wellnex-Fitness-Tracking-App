@@ -2,7 +2,7 @@
 
 # ✨ WELLNEX ✨
 
-<img src="/api/placeholder/180/180" alt="Wellnex Logo" style="border-radius:20px"/>
+[<img src="/api/placeholder/180/180" alt="Wellnex Logo" style="border-radius:20px"/>](https://imgur.com/EcUaJmG)
 
 ### *Your personal strength journey companion*
 
