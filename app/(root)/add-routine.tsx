@@ -16,6 +16,10 @@ import { databases } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { ID } from "react-native-appwrite";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {
+  ROUTINES_DATABASE_ID,
+  ROUTINES_COLLECTION_ID,
+} from "@env";
 import "./../global.css";
 
 type Routine = {
@@ -28,7 +32,6 @@ export default function AddRoutine() {
   const router = useRouter();
   const { user, addRoutine } = useGlobalContext();
 
-  // Always start with an empty routine; we no longer fetch an existing one
   const [routine, setRoutine] = useState<Routine>({
     name: "",
     exercises: [],
@@ -39,49 +42,44 @@ export default function AddRoutine() {
     if (!user) return Alert.alert("Error", "You must be logged in!");
 
     if (!routine.name.trim()) {
-      Alert.alert("Error", "Please enter a routine name.");
-      return;
+      return Alert.alert("Error", "Please enter a routine name.");
     }
-
     if (routine.exercises.length === 0) {
-      Alert.alert("Error", "Please select at least one exercise.");
-      return;
+      return Alert.alert("Error", "Please select at least one exercise.");
     }
 
     try {
-      const data = {
+      const payload = {
         name: routine.name.trim(),
         exercises: JSON.stringify(routine.exercises),
         userId: user.$id,
       };
 
-      // Always create a new document with a unique ID using ID.unique()
-      const newDocument = await databases.createDocument(
-        "67bd43150023c2506475",
-        "67c0917a00210d0cb4db",
+      const newDoc = await databases.createDocument(
+        ROUTINES_DATABASE_ID,
+        ROUTINES_COLLECTION_ID,
         ID.unique(),
-        data
+        payload
       );
 
-      // Add the routine to the global state
       addRoutine({
-        id: newDocument.$id,
+        id: newDoc.$id,
         name: routine.name,
         exercises: routine.exercises,
       });
 
       Alert.alert("Success", "Routine saved!");
       router.back();
-    } catch (error) {
-      console.error("Error saving routine:", error);
+    } catch (err) {
+      console.error("Error saving routine:", err);
       Alert.alert("Error", "Failed to save routine.");
     }
   };
 
   const exercisesList = [
-    "Push-ups",
+    "Push‑ups",
     "Squats",
-    "Pull-ups",
+    "Pull‑ups",
     "Lunges",
     "Plank",
     "Deadlifts",
@@ -89,28 +87,29 @@ export default function AddRoutine() {
     "Bicep Curls",
   ];
 
-  const handleAddExercise = (exerciseName: string) => {
-    if (
-      exerciseName &&
-      !routine.exercises.some((e) => e.name === exerciseName)
-    ) {
-      setRoutine((prev) => ({
+  const handleAddExercise = (name: string) => {
+    if (name && !routine.exercises.some(e => e.name === name)) {
+      setRoutine(prev => ({
         ...prev,
-        exercises: [...prev.exercises, { name: exerciseName, sets: 3, reps: 10 }],
+        exercises: [...prev.exercises, { name, sets: 3, reps: 10 }],
       }));
     }
   };
 
-  const updateExercise = (index: number, field: "sets" | "reps", value: string) => {
-    const updatedExercises = [...routine.exercises];
-    updatedExercises[index][field] = parseInt(value) || 0;
-    setRoutine((prev) => ({ ...prev, exercises: updatedExercises }));
+  const updateExercise = (
+    idx: number,
+    field: "sets" | "reps",
+    val: string
+  ) => {
+    const list = [...routine.exercises];
+    list[idx][field] = parseInt(val, 10) || 0;
+    setRoutine(prev => ({ ...prev, exercises: list }));
   };
 
-  const handleRemoveExercise = (exerciseName: string) => {
-    setRoutine((prev) => ({
+  const handleRemove = (name: string) => {
+    setRoutine(prev => ({
       ...prev,
-      exercises: prev.exercises.filter((e) => e.name !== exerciseName),
+      exercises: prev.exercises.filter(e => e.name !== name),
     }));
   };
 
@@ -118,54 +117,51 @@ export default function AddRoutine() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView className="flex-1 bg-black">
         <View className="flex-1 px-8 pt-1">
-          {/* Back Button */}
           <TouchableOpacity onPress={() => router.back()} className="mb-4 mt-5">
             <Ionicons name="arrow-back" size={28} color="white" />
           </TouchableOpacity>
 
-          <View className="mt-[-12]">
-            <Text className="text-white text-2xl font-bold mb-4 text-center">
-              Add Routine
-            </Text>
-          </View>
+          <Text className="text-white text-2xl font-bold mb-4 text-center">
+            Add Routine
+          </Text>
 
-          {/* Routine Name Input */}
           <Text className="text-white font-bold mb-2">Routine Name</Text>
           <TextInput
             className="bg-gray-800 text-white px-5 py-3 rounded-lg shadow-lg mb-4"
             placeholder="Enter routine name"
             placeholderTextColor="#999"
             value={routine.name}
-            onChangeText={(value) =>
-              setRoutine((prev) => ({ ...prev, name: value }))
-            }
+            onChangeText={v => setRoutine(prev => ({ ...prev, name: v }))}
           />
 
-          {/* Exercise Dropdown */}
-          <Text className="text-white font-bold mb-2">Select Exercises:</Text>
+          <Text className="text-white font-bold mb-2">
+            Select Exercises:
+          </Text>
           <View className="bg-gray-800 rounded-lg mb-4">
             <Picker
               selectedValue=""
-              onValueChange={(itemValue) => handleAddExercise(itemValue)}
+              onValueChange={handleAddExercise}
               style={{ color: "white" }}
             >
               <Picker.Item label="Select an exercise" value="" />
-              {exercisesList.map((exercise, index) => (
-                <Picker.Item key={index} label={exercise} value={exercise} />
+              {exercisesList.map((ex, i) => (
+                <Picker.Item key={i} label={ex} value={ex} />
               ))}
             </Picker>
           </View>
 
-          {/* Scrollable Exercises List */}
           <ScrollView
             className="flex-1 mb-4"
             contentContainerStyle={{ paddingBottom: 20 }}
           >
-            {routine.exercises.map((exercise, index) => (
-              <View key={index} className="bg-gray-700 p-3 rounded-lg mb-2">
+            {routine.exercises.map((ex, i) => (
+              <View
+                key={i}
+                className="bg-gray-700 p-3 rounded-lg mb-2"
+              >
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-white">{exercise.name}</Text>
-                  <TouchableOpacity onPress={() => handleRemoveExercise(exercise.name)}>
+                  <Text className="text-white">{ex.name}</Text>
+                  <TouchableOpacity onPress={() => handleRemove(ex.name)}>
                     <Ionicons name="trash" size={20} color="red" />
                   </TouchableOpacity>
                 </View>
@@ -176,18 +172,17 @@ export default function AddRoutine() {
                     <TextInput
                       className="bg-gray-800 text-white p-2 rounded-lg text-center"
                       keyboardType="numeric"
-                      value={exercise.sets.toString()}
-                      onChangeText={(value) => updateExercise(index, "sets", value)}
+                      value={ex.sets.toString()}
+                      onChangeText={v => updateExercise(i, "sets", v)}
                     />
                   </View>
-
                   <View className="w-[48%]">
                     <Text className="text-white mb-1">Reps</Text>
                     <TextInput
                       className="bg-gray-800 text-white p-2 rounded-lg text-center"
                       keyboardType="numeric"
-                      value={exercise.reps.toString()}
-                      onChangeText={(value) => updateExercise(index, "reps", value)}
+                      value={ex.reps.toString()}
+                      onChangeText={v => updateExercise(i, "reps", v)}
                     />
                   </View>
                 </View>
@@ -196,13 +191,14 @@ export default function AddRoutine() {
           </ScrollView>
         </View>
 
-        {/* Save Button (Fixed at Bottom) */}
         <View className="px-8 pb-8 bg-black">
           <TouchableOpacity
             className="bg-red-600 py-4 rounded-lg flex-row justify-center items-center w-full"
             onPress={saveRoutine}
           >
-            <Text className="text-white font-bold text-lg">Save Routine</Text>
+            <Text className="text-white font-bold text-lg">
+              Save Routine
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
