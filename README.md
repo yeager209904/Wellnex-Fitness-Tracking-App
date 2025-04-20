@@ -76,7 +76,7 @@ Never train alone with our AI-powered assistant that provides:
     <img src="https://i.imgur.com/vPQ5Ql3.png" alt="Routine Page" width="200px" style="margin: 10px;"/>
   </a>
   <a href="https://imgur.com/PlD8AO8" target="_blank">
-    <img src="https://i.imgur.com/PlD8AO8.png" alt="Assistant Page" width="225px" style="margin: 10px;"/>
+    <img src="https://i.imgur.com/PlD8AO8.png" alt="Assistant Page" width="220px" style="margin: 10px;"/>
   </a>
 </div>
 
