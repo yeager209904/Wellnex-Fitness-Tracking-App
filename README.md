@@ -21,14 +21,13 @@
 ---
 
 <div align="center">
-
-### 📽️ Experience Wellnex: ML-powered strength prediction and comprehensive workout tracking
-
-[![Watch Demo](https://imgur.com/IoShdTa.png)](https://imgur.com/IoShdTa)
-
-<p><i>Click the image above to watch the demo</i></p>
-
+    <h3>📽️ Experience Wellnex: ML-powered strength prediction and comprehensive workout tracking</h3>
+    <a href="https://imgur.com/IoShdTa">
+        <img src="https://imgur.com/IoShdTa.png" alt="Watch Demo" width="250" height="auto">
+    </a>
+    <p><i>Click the image above to watch the demo</i></p>
 </div>
+
 
 
 
