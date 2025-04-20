@@ -72,13 +72,13 @@ Never train alone with our AI-powered assistant that provides:
   <table>
     <tr>
       <td align="center">
-        <a href="https://imgur.com/undefined" target="_blank">
-          <img src="https://imgur.com/undefined" alt="Home Screen" width="200"/><br><strong>Dashboard</strong>
+        <a href="https://imgur.com/CZ7upMK" target="_blank">
+          <img src="https://imgur.com/CZ7upMK" alt="Home Screen" width="200"/><br><strong>Dashboard</strong>
         </a>
       </td>
       <td align="center">
-        <a href="https://i.imgur.com/YOUR_IMAGE_2.png" target="_blank">
-          <img src="https://i.imgur.com/YOUR_IMAGE_2.png" alt="Strength Prediction" width="200"/><br><strong>ML Strength Analytics</strong>
+        <a href="https://imgur.com/vPQ5Ql3" target="_blank">
+          <img src="https://imgur.com/vPQ5Ql3" alt="Routines" width="200"/><br><strong>Routine Page</strong>
         </a>
       </td>
       <td align="center">
