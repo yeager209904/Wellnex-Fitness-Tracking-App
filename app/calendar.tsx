@@ -4,9 +4,13 @@ import { Calendar, DateData } from "react-native-calendars";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { databases } from "@/lib/appwrite"; 
+import { databases } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { Query } from "react-native-appwrite";
+import {
+  CALENDAR_DATABASE_ID,
+  CALENDAR_COLLECTION_ID,
+} from "@env";
 
 const CalendarScreen = () => {
   const { user } = useGlobalContext();
@@ -17,55 +21,44 @@ const CalendarScreen = () => {
   const [restCount, setRestCount] = useState(0);
   const [lastStreakDate, setLastStreakDate] = useState("");
 
-  // Fetch calendar data on mount (and when user changes)
   useEffect(() => {
-    if (user) {
-      fetchCalendarData();
-    }
+    if (user) fetchCalendarData();
   }, [user]);
 
-  /**
-   * Fetches all calendar documents for the current user,
-   * then aggregates the streak and rest counts.
-   */
   const fetchCalendarData = async () => {
     try {
       const response = await databases.listDocuments(
-        "67bd43150023c2506475",  // Your database ID
-        "67dc491f0036b61658c1",  // Your collection ID
-        [Query.equal("userId",  user?.$id ?? "")]
+        CALENDAR_DATABASE_ID,
+        CALENDAR_COLLECTION_ID,
+        [Query.equal("userId", user!.$id)]
       );
 
       if (response.documents.length > 0) {
-        // Sort documents in descending order by date (assuming date is stored as YYYY-MM-DD or ISO string)
-        const sortedDocs = response.documents.sort((a, b) =>
+        const sorted = response.documents.sort((a, b) =>
           b.date.localeCompare(a.date)
         );
 
         let latestStreak = 0;
         let totalRest = 0;
-        // Find the first document (most recent) with a streak value > 0
-        for (let doc of sortedDocs) {
-          if (doc.streak && doc.streak > 0 && latestStreak === 0) {
+
+        for (const doc of sorted) {
+          if (doc.streak > 0 && latestStreak === 0) {
             latestStreak = doc.streak;
             setLastStreakDate(doc.date);
           }
-          if (doc.rest && doc.rest > 0) {
+          if (doc.rest > 0) {
             totalRest += doc.rest;
           }
         }
+
         setStreakCount(latestStreak);
         setRestCount(totalRest);
       }
-    } catch (error) {
-      console.error("Error fetching calendar data:", error);
+    } catch (err) {
+      console.error("Error fetching calendar data:", err);
     }
   };
 
-  /**
-   * Saves the calendar data to Appwrite.
-   * Always sends both "streak" and "rest" attributes.
-   */
   const saveCalendarData = async (
     day: DateData,
     type: "streak" | "rest",
@@ -76,68 +69,46 @@ const CalendarScreen = () => {
       return;
     }
 
-    // For a "streak" day, streak is count and rest is 0.
-    // For a "rest" day, rest is count and streak is 0.
-    const data = {
+    const payload = {
       userId: user.$id,
-      date: day.dateString, // Ensure this format matches your ordering needs
+      date: day.dateString,
       streak: type === "streak" ? count : 0,
       rest: type === "rest" ? count : 0,
     };
 
     try {
       await databases.createDocument(
-        "67bd43150023c2506475",
-        "67dc491f0036b61658c1",
-        "unique()",
-        data
+        CALENDAR_DATABASE_ID,
+        CALENDAR_COLLECTION_ID,
+        /* use Appwrite’s ID.unique() if you prefer: */ "unique()",
+        payload
       );
-      console.log("Calendar data saved:", data);
-    } catch (error) {
-      console.error("Error saving calendar data:", error);
+    } catch (err) {
+      console.error("Error saving calendar data:", err);
     }
   };
 
-  /**
-   * Handles the day press event by showing an alert to select type.
-   */
   const handleDayPress = (day: DateData) => {
     setSelectedDate(day.dateString);
-
     Alert.alert(
       "Select Day Type",
       `Mark ${day.dateString} as a Streak or Rest day?`,
       [
-        {
-          text: "Streak",
-          onPress: () => handleStreak(day),
-        },
-        {
-          text: "Rest",
-          onPress: () => handleRest(day),
-        },
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
+        { text: "Streak", onPress: () => handleStreak(day) },
+        { text: "Rest", onPress: () => handleRest(day) },
+        { text: "Cancel", style: "cancel" },
+      ]
     );
   };
 
-  /**
-   * When the user selects "Streak" for a day,
-   * check if it's consecutive to increment or reset the streak.
-   */
   const handleStreak = (day: DateData) => {
     const selected = new Date(day.dateString);
     let newStreak = 1;
 
     if (lastStreakDate) {
-      const lastDate = new Date(lastStreakDate);
-      const diffTime = selected.getTime() - lastDate.getTime();
-      const diffDays = diffTime / (1000 * 60 * 60 * 24);
-      newStreak = diffDays === 1 ? streakCount + 1 : 1;
+      const last = new Date(lastStreakDate);
+      const diff = (selected.getTime() - last.getTime()) / (1000 * 60 * 60 * 24);
+      newStreak = diff === 1 ? streakCount + 1 : 1;
     }
 
     setStreakCount(newStreak);
@@ -145,10 +116,6 @@ const CalendarScreen = () => {
     saveCalendarData(day, "streak", newStreak);
   };
 
-  /**
-   * When the user selects "Rest" for a day,
-   * simply increment the rest count.
-   */
   const handleRest = (day: DateData) => {
     const newRest = restCount + 1;
     setRestCount(newRest);
@@ -157,7 +124,7 @@ const CalendarScreen = () => {
 
   return (
     <SafeAreaView className="h-full bg-black p-4">
-      {/* Back button */}
+      {/* Back Button */}
       <View className="flex-row items-center mb-4">
         <TouchableOpacity onPress={() => router.back()} className="p-2">
           <Ionicons name="arrow-back" size={28} color="white" />
@@ -167,7 +134,7 @@ const CalendarScreen = () => {
         </Text>
       </View>
 
-      {/* Display Streak and Rest Counts */}
+      {/* Streak & Rest Summary */}
       <View className="flex-row justify-between mb-4">
         <View className="flex-row items-center border-2 border-white p-3 rounded-lg">
           <Ionicons name="flame" size={24} color="#ff3b30" />
@@ -189,10 +156,7 @@ const CalendarScreen = () => {
       <Calendar
         onDayPress={handleDayPress}
         markedDates={{
-          [selectedDate]: {
-            selected: true,
-            selectedColor: "#ff3b30",
-          },
+          [selectedDate]: { selected: true, selectedColor: "#ff3b30" },
         }}
         theme={{
           backgroundColor: "#000",
@@ -209,7 +173,6 @@ const CalendarScreen = () => {
         }}
       />
 
-      {/* Selected Date Display */}
       {selectedDate ? (
         <Text className="text-lg text-white mt-4">
           Selected Date: {selectedDate}
