@@ -1,6 +1,6 @@
 <div align="center">
 
-#  WELLNEX 💪
+#  🏋️‍♀️ WELLNEX 🏋️‍♀️
 
 [![Wellnex Logo](https://imgur.com/EcUaJmG.png)](https://imgur.com/EcUaJmG)
 
