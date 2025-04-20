@@ -68,9 +68,18 @@ Never train alone with our AI-powered assistant that provides:
 
 ## 📱 Experience Wellnex
 
-[![Dashboard](https://i.imgur.com/CZ7upMK.png)](https://imgur.com/CZ7upMK)
-[![Routine Page](https://i.imgur.com/vPQ5Ql3.png)](https://imgur.com/vPQ5Ql3)
-[![Assistant Page](https://i.imgur.com/PlD8AO8.png)](https://imgur.com/PlD8AO8)
+<div align="center">
+  <a href="https://imgur.com/CZ7upMK" target="_blank">
+    <img src="https://i.imgur.com/CZ7upMK.png" alt="Dashboard" width="200px" style="margin: 10px;"/>
+  </a>
+  <a href="https://imgur.com/vPQ5Ql3" target="_blank">
+    <img src="https://i.imgur.com/vPQ5Ql3.png" alt="Routine Page" width="200px" style="margin: 10px;"/>
+  </a>
+  <a href="https://imgur.com/PlD8AO8" target="_blank">
+    <img src="https://i.imgur.com/PlD8AO8.png" alt="Assistant Page" width="200px" style="margin: 10px;"/>
+  </a>
+</div>
+
 
 
 ---
