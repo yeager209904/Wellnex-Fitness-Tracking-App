@@ -21,12 +21,15 @@
 ---
 
 <div align="center">
-  <a href="https://imgur.com/IoShdTa" target="_blank">
-    <img src="https://i.imgur.com/IoShdTa.gif" alt="Wellnex Demo" width="700px"/>
-    <br/>
-    <i>▶ Click to watch: Experience Wellnex — ML-powered strength prediction and comprehensive workout tracking</i>
-  </a>
+
+### 📽️ Experience Wellnex: ML-powered strength prediction and comprehensive workout tracking
+
+[![Watch Demo](https://imgur.com/IoShdTa.png)](https://imgur.com/IoShdTa)
+
+<p><i>Click the image above to watch the demo</i></p>
+
 </div>
+
 
 
 
