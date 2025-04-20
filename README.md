@@ -68,27 +68,9 @@ Never train alone with our AI-powered assistant that provides:
 
 ## 📱 Experience Wellnex
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <a href="https://imgur.com/CZ7upMK" target="_blank">
-          <img src="https://imgur.com/CZ7upMK" alt="Home Screen" width="200"/><br><strong>Dashboard</strong>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://imgur.com/vPQ5Ql3" target="_blank">
-          <img src="https://imgur.com/vPQ5Ql3" alt="Routines" width="200"/><br><strong>Routine Page</strong>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://i.imgur.com/YOUR_IMAGE_3.png" target="_blank">
-          <img src="https://i.imgur.com/YOUR_IMAGE_3.png" alt="AI Chatbot" width="200"/><br><strong>Wellnex Assistant</strong>
-        </a>
-      </td>
-    </tr>
-  </table>
-</div>
+[![Dashboard](https://i.imgur.com/CZ7upMK.png)](https://imgur.com/CZ7upMK)
+[![Routine Page](https://i.imgur.com/vPQ5Ql3.png)](https://imgur.com/vPQ5Ql3)
+[![Assistant Page](https://i.imgur.com/PlD8AO8.png)](https://imgur.com/PlD8AO8)
 
 
 ---
