@@ -103,7 +103,7 @@ Never train alone with our AI-powered assistant that provides:
 
 ```bash
 # Clone the Wellnex repository
-git clone https://github.com/yourusername/wellnex.git
+git clone https://github.com/yourusername/Wellnex-Fitness-Tracking-App.git
 
 # Navigate to the project directory
 cd wellnex
