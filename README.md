@@ -203,12 +203,6 @@ Please see our [Contribution Guidelines](CONTRIBUTING.md) for more details.
 
 ---
 
-## 📜 License
-
-Wellnex is available under the MIT License. See the [LICENSE](LICENSE) file for more info.
-
----
-
 <div align="center">
 
 <p>Built with ❤️ for strength enthusiasts worldwide</p>
