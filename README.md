@@ -199,8 +199,6 @@ git push origin feature/amazing-improvement
 # Open a Pull Request
 ```
 
-Please see our [Contribution Guidelines](CONTRIBUTING.md) for more details.
-
 ---
 
 <div align="center">
